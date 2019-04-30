@@ -1,20 +1,7 @@
 import EventEmitter from 'eventemitter3';
-import instances from './instances';
 import logger from './logger';
 
 const debug = logger('quill:events');
-const EVENTS = ['selectionchange', 'mousedown', 'mouseup', 'click'];
-
-EVENTS.forEach(eventName => {
-  document.addEventListener(eventName, (...args) => {
-    Array.from(document.querySelectorAll('.ql-container')).forEach(node => {
-      const quill = instances.get(node);
-      if (quill && quill.emitter) {
-        quill.emitter.handleDOM(...args);
-      }
-    });
-  });
-});
 
 class Emitter extends EventEmitter {
   constructor() {
@@ -30,8 +17,16 @@ class Emitter extends EventEmitter {
 
   handleDOM(event, ...args) {
     (this.listeners[event.type] || []).forEach(({ node, handler }) => {
-      if (event.target === node || node.contains(event.target)) {
+      if (
+        event.target === node ||
+        node.contains(event.target) ||
+        (node.nodeName === '#document-fragment' &&
+          node.ownerDocument.body.contains(event.target))
+      ) {
+        console.log(`Handled event [${event.type}]`, event.target, node);
         handler(event, ...args);
+      } else {
+        console.log(`Missed event [${event.type}]`, event.target, node);
       }
     });
   }

@@ -11,6 +11,8 @@ import Theme from './theme';
 
 const debug = logger('quill');
 
+const EVENTS = ['selectionchange', 'mousedown', 'mouseup', 'click'];
+
 const globalRegistry = new Parchment.Registry();
 Parchment.ParentBlot.uiClass = 'ql-ui';
 
@@ -79,6 +81,22 @@ class Quill {
     this.root.setAttribute('data-gramm', false);
     this.scrollingContainer = this.options.scrollingContainer || this.root;
     this.emitter = new Emitter();
+    EVENTS.forEach(eventName => {
+      this.root.getRootNode().addEventListener(eventName, (...args) => {
+        if (this.emitter) {
+          this.emitter.handleDOM(...args);
+        }
+      });
+      if (this.root.getRootNode().nodeName === '#document-fragment') {
+        this.root
+          .getRootNode()
+          .ownerDocument.addEventListener(eventName, (...args) => {
+            if (this.emitter) {
+              this.emitter.handleDOM(...args);
+            }
+          });
+      }
+    });
     const ScrollBlot = this.options.registry.query(
       Parchment.ScrollBlot.blotName,
     );

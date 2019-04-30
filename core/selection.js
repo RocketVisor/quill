@@ -89,10 +89,17 @@ class Selection {
   }
 
   handleDragging() {
-    this.emitter.listenDOM('mousedown', this.root.getRootNode().body, () => {
+    const rootNode = this.root.getRootNode();
+    let elementNode;
+    if (rootNode.nodeName === '#document-fragment') {
+      elementNode = rootNode;
+    } else {
+      elementNode = rootNode.body;
+    }
+    this.emitter.listenDOM('mousedown', elementNode, () => {
       this.mouseDown = true;
     });
-    this.emitter.listenDOM('mouseup', this.root.getRootNode().body, () => {
+    this.emitter.listenDOM('mouseup', elementNode, () => {
       this.mouseDown = false;
       this.update(Emitter.sources.USER);
     });
