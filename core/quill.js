@@ -524,7 +524,7 @@ function expandConfig(container, userConfig) {
   );
   ['bounds', 'container', 'scrollingContainer'].forEach(key => {
     if (typeof userConfig[key] === 'string') {
-      userConfig[key] = document.querySelector(userConfig[key]);
+      userConfig[key] = this.root.getRootNode().querySelector(userConfig[key]);
     }
   });
   userConfig.modules = Object.keys(userConfig.modules).reduce(
