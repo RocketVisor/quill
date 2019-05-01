@@ -23,10 +23,10 @@ class Emitter extends EventEmitter {
         (node.nodeName === '#document-fragment' &&
           node.ownerDocument.body.contains(event.target))
       ) {
-        console.log(`Handled event [${event.type}]`, event.target, node);
+        // console.log(`Handled event [${event.type}]`, event.target, node);
         handler(event, ...args);
       } else {
-        console.log(`Missed event [${event.type}]`, event.target, node);
+        // console.log(`Missed event [${event.type}]`, event.target, node);
       }
     });
   }
