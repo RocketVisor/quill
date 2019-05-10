@@ -183,6 +183,13 @@ class Quill {
   enable(enabled = true) {
     this.scroll.enable(enabled);
     this.container.classList.toggle('ql-disabled', !enabled);
+    if (enabled) {
+      if (this.options.placeholder) {
+        this.root.setAttribute('data-placeholder', this.options.placeholder);
+      }
+    } else {
+      this.root.setAttribute('data-placeholder', '(blank)');
+    }
   }
 
   focus() {

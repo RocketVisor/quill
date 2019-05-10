@@ -1,8 +1,8 @@
 {
-  "name": "quill",
+  "name": "@rocketvisor/quill",
   "version": "2.0.0-dev.3",
-  "description": "Your powerful, rich text editor",
-  "author": "Jason Chen <jhchen7@gmail.com>",
+  "description": "forked rich-text editor that is compatible with shadow DOM",
+  "author": "Ben Kalish <bkalish@rocketvisor.com>",
   "homepage": "http://quilljs.com",
   "main": "dist/quill.js",
   "files": [
@@ -32,6 +32,7 @@
     }
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "clone": "^2.1.2",
     "deep-equal": "^1.0.1",
     "eventemitter3": "^3.1.0",
